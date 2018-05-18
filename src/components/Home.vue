@@ -41,7 +41,7 @@ import axe from 'axe4js'
 import { Toast } from 'mint-ui'
 import event from '../event'
 export default {
-  name: 'HelloWorld',
+  name: 'Home',
   data () {
     return {
       popupVisible2: false,
@@ -171,7 +171,7 @@ export default {
       this.$router.push('/test')
     },
     reigsterEventA () {
-      event.notice.registerEvent(this, 'eventA', () => {
+      event.notice.registerEvent(this, 'eventA', function () {
         Toast('eventA !!!!!')
       })
       Toast('成功注册监听！')
@@ -184,7 +184,8 @@ export default {
       axe.event.postEvent('eventA')
     },
     listenToLoginStatus () {
-      event.notice.registerEvent(this, 'LoginStatusChange', (payload) => {
+      // 注意回调函数，不要使用 (payload) => {}的形式， this指针由 notice传入！！！
+      event.notice.registerEvent(this, 'LoginStatusChange', function (payload) {
         if (payload.get('login')) {
           let userInfo = payload.get('userInfo')
           this.msg = `登录成功 ,信息如下 : 帐号 : ${userInfo.account} 等级: ${userInfo.level} \n detailInfo: ${JSON.stringify(userInfo.detailInfo)} \n tagList: ${JSON.stringify(userInfo.tagList)}`

@@ -63,10 +63,10 @@
 
 然后监听如此编写：
 
-	event.notice.registerEvent(this, 'eventA', () => {
+	event.notice.registerEvent(this, 'eventA', function () {
         Toast('eventA !!!!!')
       })
-	event.notice.registerEvent(this, 'LoginStatusChange', (payload) => {
+	event.notice.registerEvent(this, 'LoginStatusChange', function (payload) {
         if (payload.get('login')) {
           let userInfo = payload.get('userInfo')
           this.msg = `登录成功 ,信息如下 : 帐号 : ${userInfo.account} 等级: ${userInfo.level} \n detailInfo: ${JSON.stringify(userInfo.detailInfo)} \n tagList: ${JSON.stringify(userInfo.tagList)}`
@@ -79,6 +79,8 @@
  
 	 event.notice.removeListener(this, 'LoginStatusChange')
 	 
+注意， 监听时不要使用 `箭头函数` , `notice`中通过 `call`来传递`this`指针。
+
 ### 后续计划
 
 `Event`在单页面应用上， 容易出现内存泄漏和重复注册的问题， 解决起来也要结合具体的开发环境和技术栈。 暂时实现了两种`Vue`上的方案， 这两个方案之后整理成单独的库。
